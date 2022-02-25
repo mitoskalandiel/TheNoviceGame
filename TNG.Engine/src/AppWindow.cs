@@ -96,9 +96,10 @@ public sealed class AppWindow {
         glContext.Clear((uint)ClearBufferMask.ColorBufferBit);
         Vao.Bind();
         shader.Use();
-        shader.SetUniform("uRed", (float)Math.Sin(DateTime.Now.Millisecond / 333f * Math.PI));
-        shader.SetUniform("uGreen", (float)Math.Sin(DateTime.Now.Millisecond / 666f * Math.PI));
-        shader.SetUniform("uBlue", (float)Math.Sin(DateTime.Now.Millisecond / 999f * Math.PI));
+        shader.SetUniform("uRed", (float)Math.Sinh(DateTime.Now.Millisecond / 1000f * Math.PI));
+        shader.SetUniform("uGreen", (float)Math.Cosh(DateTime.Now.Millisecond / 1000f * Math.PI));
+        shader.SetUniform("uBlue", (float)Math.Tanh(DateTime.Now.Millisecond / 1000f * Math.PI));
+        shader.SetUniform("uAlpha", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
         glContext.DrawElements(PrimitiveType.Triangles, (uint)Indices.Length, DrawElementsType.UnsignedInt, null);
     }
 
