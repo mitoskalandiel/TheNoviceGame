@@ -90,10 +90,10 @@ public sealed class AppWindow {
         int posSize = 3;
         int colorSize = 4;
         int uvSize = 2;
-        int vertexSize = posSize+ colorSize+ uvSize;
+        int vertexSize = posSize + colorSize + uvSize;
         int posOffset = 0;
-        int colorOffset = posOffset+posSize;
-        int uvOffset = colorOffset+colorSize;
+        int colorOffset = posOffset + posSize;
+        int uvOffset = colorOffset + colorSize;
 
         Vao.VertexAttributePointer(0, posSize, VertexAttribPointerType.Float, (uint)vertexSize, posOffset);
         Vao.VertexAttributePointer(1, colorSize, VertexAttribPointerType.Float, (uint)vertexSize, colorOffset);
