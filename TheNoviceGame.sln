@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNoviceGame", "TheNoviceGame\TheNoviceGame.csproj", "{D5200C70-E651-4EDA-8B1D-34906470CD14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNG.Engine", "TNG.Engine\TNG.Engine.csproj", "{712B25A3-1390-4D5F-8721-0B7E992D5340}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5200C70-E651-4EDA-8B1D-34906470CD14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5200C70-E651-4EDA-8B1D-34906470CD14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5200C70-E651-4EDA-8B1D-34906470CD14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5200C70-E651-4EDA-8B1D-34906470CD14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{712B25A3-1390-4D5F-8721-0B7E992D5340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{712B25A3-1390-4D5F-8721-0B7E992D5340}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{712B25A3-1390-4D5F-8721-0B7E992D5340}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{712B25A3-1390-4D5F-8721-0B7E992D5340}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C99E841A-7C8D-4799-8AB9-8514E20F4C13}
+	EndGlobalSection
+EndGlobal
