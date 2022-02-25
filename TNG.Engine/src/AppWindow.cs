@@ -33,13 +33,15 @@ public sealed class AppWindow {
     private static VertexArrayObject<float, uint> Vao;
     private static Shader shader;
 
+    internal static int _iterator = 0;
+
     //This is the vertex data uploaded to the vbo
     private static readonly float[] Vertices = {
         //X    Y      Z     R  G  B  A
-        0.5f,  0.5f, 0.0f, 1, 0, 0, 1,
-        0.5f, -0.5f, 0.0f, 0, 0, 0, 1,
-       -0.5f, -0.5f, 0.0f, 0, 0, 1, 1,
-       -0.5f,  0.5f, 0.5f, 0, 0, 0, 1
+        0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+       -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+       -0.5f,  0.5f, 0.0f, 0.3f, 0.3f, 0.3f, 1.0f
     };
 
     //Index data, uploaded to the ebo
@@ -96,10 +98,29 @@ public sealed class AppWindow {
         glContext.Clear((uint)ClearBufferMask.ColorBufferBit);
         Vao.Bind();
         shader.Use();
-        shader.SetUniform("uRed", (float)Math.Sinh(DateTime.Now.Millisecond / 1000f * Math.PI));
-        shader.SetUniform("uGreen", (float)Math.Cosh(DateTime.Now.Millisecond / 1000f * Math.PI));
-        shader.SetUniform("uBlue", (float)Math.Tanh(DateTime.Now.Millisecond / 1000f * Math.PI));
-        shader.SetUniform("uAlpha", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
+        switch (_iterator)
+        {
+            case 0:
+                shader.SetUniform("uRed", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
+                shader.SetUniform("uGreen", 1);
+                shader.SetUniform("uBlue", 1);
+                break;
+            case 1:
+                shader.SetUniform("uRed", 1);
+                shader.SetUniform("uGreen", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
+                shader.SetUniform("uBlue", 1);
+                break;
+            case 2:
+                shader.SetUniform("uRed", 1);
+                shader.SetUniform("uGreen", 1);
+                shader.SetUniform("uBlue", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
+                _iterator = 0;
+                break;
+            default:
+                throw new Exception();
+        }
+        shader.SetUniform("uAlpha", 1);
+        _iterator++;
         glContext.DrawElements(PrimitiveType.Triangles, (uint)Indices.Length, DrawElementsType.UnsignedInt, null);
     }
 
