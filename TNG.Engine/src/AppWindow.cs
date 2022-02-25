@@ -20,10 +20,10 @@ public sealed class AppWindow {
     private static readonly Lazy<AppWindow> LazySingleton = new Lazy<AppWindow>(() => new AppWindow());
     public static AppWindow Instance => LazySingleton.Value;
 
-    public static string VertexShaderPath { get; set; }
-    public static string FragmentShaderPath { get; set; }
+    public static string VertexShaderPath { get; set; } = string.Empty;
+    public static string FragmentShaderPath { get; set; } = string.Empty;
 
-    private static IWindow RenderWindow;
+    private static IWindow? RenderWindow;
     private static GL glContext;
 
     private static uint ShaderProgramID;
@@ -91,7 +91,7 @@ public sealed class AppWindow {
     }
 
     public AppWindow Get() {
-        return this;
+        return Instance;
     }
 
     private static unsafe void OnRender(double obj) {
