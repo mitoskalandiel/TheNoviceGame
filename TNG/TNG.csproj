@@ -10,6 +10,9 @@
     <ProjectReference Include="..\TNG.Engine\TNG.Engine.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="assets\images\testImage.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="assets\shaders\defaultShader.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

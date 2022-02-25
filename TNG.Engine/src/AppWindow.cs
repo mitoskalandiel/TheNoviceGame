@@ -23,6 +23,8 @@ public sealed class AppWindow {
     public static string VertexShaderPath { get; set; } = string.Empty;
     public static string FragmentShaderPath { get; set; } = string.Empty;
 
+    public static string TexturePath { get; set; } = string.Empty;
+
     private static IWindow? RenderWindow;
     private static GL glContext;
 
@@ -32,16 +34,17 @@ public sealed class AppWindow {
     private static BufferObject<uint> Ebo;
     private static VertexArrayObject<float, uint> Vao;
     private static Shader shader;
+    private static Texture texture;
 
     internal static int _iterator = 0;
 
     //This is the vertex data uploaded to the vbo
     private static readonly float[] Vertices = {
-        //X    Y      Z     R  G  B  A
-        0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-       -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-       -0.5f,  0.5f, 0.0f, 0.3f, 0.3f, 0.3f, 1.0f
+    //    X      Y     Z     R     G     B     A     U     V
+        0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+       -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+       -0.5f,  0.5f, 0.0f, 0.3f, 0.3f, 0.3f, 1.0f, 0.0f, 0.0f
     };
 
     //Index data, uploaded to the ebo
@@ -84,10 +87,20 @@ public sealed class AppWindow {
         Vbo = new BufferObject<float>(glContext, Vertices, BufferTargetARB.ArrayBuffer);
         Vao = new VertexArrayObject<float, uint>(glContext, Vbo, Ebo);
 
-        Vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, 7, 0);
-        Vao.VertexAttributePointer(1, 4, VertexAttribPointerType.Float, 7, 3);
+        int posSize = 3;
+        int colorSize = 4;
+        int uvSize = 2;
+        int vertexSize = posSize+ colorSize+ uvSize;
+        int posOffset = 0;
+        int colorOffset = posOffset+posSize;
+        int uvOffset = colorOffset+colorSize;
+
+        Vao.VertexAttributePointer(0, posSize, VertexAttribPointerType.Float, (uint)vertexSize, posOffset);
+        Vao.VertexAttributePointer(1, colorSize, VertexAttribPointerType.Float, (uint)vertexSize, colorOffset);
+        Vao.VertexAttributePointer(2, uvSize, VertexAttribPointerType.Float, (uint)vertexSize, uvOffset);
 
         shader = new Shader(glContext, VertexShaderPath, FragmentShaderPath);
+        texture = new Texture(glContext, TexturePath);
     }
 
     public AppWindow Get() {
@@ -98,24 +111,26 @@ public sealed class AppWindow {
         glContext.Clear((uint)ClearBufferMask.ColorBufferBit);
         Vao.Bind();
         shader.Use();
-        switch (_iterator)
-        {
+        switch (_iterator) {
             case 0:
                 shader.SetUniform("uRed", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
                 shader.SetUniform("uGreen", 1);
                 shader.SetUniform("uBlue", 1);
                 break;
+
             case 1:
                 shader.SetUniform("uRed", 1);
                 shader.SetUniform("uGreen", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
                 shader.SetUniform("uBlue", 1);
                 break;
+
             case 2:
                 shader.SetUniform("uRed", 1);
                 shader.SetUniform("uGreen", 1);
                 shader.SetUniform("uBlue", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
                 _iterator = 0;
                 break;
+
             default:
                 throw new Exception();
         }

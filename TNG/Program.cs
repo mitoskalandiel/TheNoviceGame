@@ -9,6 +9,7 @@ public class Program {
         AppWindow App = AppWindow.Instance;
         AppWindow.VertexShaderPath = @"assets/shaders/defaultShader.vert";
         AppWindow.FragmentShaderPath = @"assets/shaders/defaultShader.frag";
+        AppWindow.TexturePath = @"assets/images/testImage.png";
         App.Run();
     }
 }
