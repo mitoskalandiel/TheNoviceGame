@@ -41,6 +41,7 @@ public sealed class AppWindow {
     private static tngTexture texture;
 
     internal static int _iterator = 0;
+    private static float multiplier = 1.0f;
 
     //This is the vertex data uploaded to the vbo
     private static readonly float[] Vertices = {
@@ -130,27 +131,35 @@ public sealed class AppWindow {
         return Instance;
     }
 
+    private static void changeSomething(bool invert = false) {
+        if (invert) {
+            multiplier += -0.1f;
+        } else {
+            multiplier += 0.1f;
+        }
+    }
+
     private static unsafe void OnRender(double obj) {
         glContext.Clear((uint)ClearBufferMask.ColorBufferBit);
         Vao.Bind();
         shader.Use();
         switch (_iterator) {
             case 0:
-                shader.SetUniform("uRed", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
+                shader.SetUniform("uRed", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * (Math.PI * multiplier)));
                 shader.SetUniform("uGreen", 1);
                 shader.SetUniform("uBlue", 1);
                 break;
 
             case 1:
                 shader.SetUniform("uRed", 1);
-                shader.SetUniform("uGreen", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
+                shader.SetUniform("uGreen", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * (Math.PI * multiplier)));
                 shader.SetUniform("uBlue", 1);
                 break;
 
             case 2:
                 shader.SetUniform("uRed", 1);
                 shader.SetUniform("uGreen", 1);
-                shader.SetUniform("uBlue", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
+                shader.SetUniform("uBlue", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * (Math.PI * multiplier)));
                 _iterator = 0;
                 break;
 
@@ -176,5 +185,7 @@ public sealed class AppWindow {
         if (arg2 == Key.Escape) RenderWindow.Close();
         if (arg2 == Key.Number1) ChangeScene(0);
         if (arg2 == Key.Number2) ChangeScene(1);
+        if (arg2 == Key.KeypadAdd) changeSomething(false);
+        if (arg2 == Key.KeypadSubtract) changeSomething(true);
     }
 }
