@@ -3,15 +3,15 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Runtime.InteropServices;
 
-namespace TNG.Engine {
+namespace TNG.Engine.Renderer {
 
-    internal class Texture : IDisposable {
+    internal class tngTexture : IDisposable {
         private bool disposedValue;
 
         private uint _handle;
         private GL _gl;
 
-        public unsafe Texture(GL gl, string path) {
+        public unsafe tngTexture(GL gl, string path) {
             Image<Rgba32> img = (Image<Rgba32>)Image.Load(path);
 
             fixed (void* data = &MemoryMarshal.GetReference(img.GetPixelRowSpan(0))) {
@@ -20,7 +20,7 @@ namespace TNG.Engine {
             img.Dispose();
         }
 
-        public unsafe Texture(GL gl, Span<byte> data, uint width, uint height) {
+        public unsafe tngTexture(GL gl, Span<byte> data, uint width, uint height) {
             fixed (void* d = &data[0]) {
                 Load(gl, d, width, height);
             }

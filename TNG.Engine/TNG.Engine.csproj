@@ -11,8 +11,8 @@
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <Content Include="src\AppWindow.cs" />
-    <Content Include="src\BufferObject.cs" />
-    <Content Include="src\Shader.cs" />
-    <Content Include="src\VertexArrayObject.cs" />
+    <Content Include="src\Renderer\BufferObject.cs" />
+    <Content Include="src\Renderer\tngShader.cs" />
+    <Content Include="src\Renderer\VertexArrayObject.cs" />
   </ItemGroup>
 </Project>

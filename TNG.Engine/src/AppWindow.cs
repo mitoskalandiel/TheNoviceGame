@@ -7,6 +7,9 @@ using Silk.NET.Maths;
 using Silk.NET.Input;
 using Silk.NET.OpenGL;
 
+using TNG.Engine.Renderer;
+using TNG.Engine.Scenes;
+
 namespace TNG.Engine;
 
 public sealed class AppWindow {
@@ -14,9 +17,10 @@ public sealed class AppWindow {
     private string _title;
     private long glfwWindowInstance;
 
-    private Vector4 CanvasColor;
+    public Vector4 CanvasColor;
 
     private static AppWindow? Win = null;
+    private static Scene? currentScene = null;
     private static readonly Lazy<AppWindow> LazySingleton = new Lazy<AppWindow>(() => new AppWindow());
     public static AppWindow Instance => LazySingleton.Value;
 
@@ -33,8 +37,8 @@ public sealed class AppWindow {
     private static BufferObject<float> Vbo;
     private static BufferObject<uint> Ebo;
     private static VertexArrayObject<float, uint> Vao;
-    private static Shader shader;
-    private static Texture texture;
+    private static tngShader shader;
+    private static tngTexture texture;
 
     internal static int _iterator = 0;
 
@@ -52,6 +56,25 @@ public sealed class AppWindow {
         0,1,3,
         1,2,3
     };
+
+    private static void ChangeScene(int scene) {
+        switch (scene) {
+            case 0:
+                currentScene = new LevelEditorScene();
+                currentScene.init();
+                currentScene.start();
+                break;
+
+            case 1:
+                currentScene = new LevelScene();
+                currentScene.init();
+                currentScene.start();
+                break;
+
+            default:
+                throw new IndexOutOfRangeException($"Unknown scene index '{scene}'!");
+        }
+    }
 
     private AppWindow() {
         var options = WindowOptions.Default;
@@ -99,8 +122,8 @@ public sealed class AppWindow {
         Vao.VertexAttributePointer(1, colorSize, VertexAttribPointerType.Float, (uint)vertexSize, colorOffset);
         Vao.VertexAttributePointer(2, uvSize, VertexAttribPointerType.Float, (uint)vertexSize, uvOffset);
 
-        shader = new Shader(glContext, VertexShaderPath, FragmentShaderPath);
-        texture = new Texture(glContext, TexturePath);
+        shader = new tngShader(glContext, VertexShaderPath, FragmentShaderPath);
+        texture = new tngTexture(glContext, TexturePath);
     }
 
     public AppWindow Get() {
@@ -150,8 +173,8 @@ public sealed class AppWindow {
     }
 
     private static void KeyDown(IKeyboard arg1, Key arg2, int arg3) {
-        if (arg2 == Key.Escape) {
-            RenderWindow.Close();
-        }
+        if (arg2 == Key.Escape) RenderWindow.Close();
+        if (arg2 == Key.Number1) ChangeScene(0);
+        if (arg2 == Key.Number2) ChangeScene(1);
     }
 }
